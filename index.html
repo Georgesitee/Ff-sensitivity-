@@ -4,44 +4,39 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FF Sensitivity Generator</title>
+<title>FF Sensitivity Pro</title>
 
 <style>
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   background: #101010;
   color: white;
   font-family: Arial, sans-serif;
   text-align: center;
-  padding: 20px;
+  padding: 15px;
 }
 
 .container {
-  max-width: 450px;
+  max-width: 460px;
   margin: auto;
   background: #202020;
-  padding: 25px;
-  border-radius: 15px;
+  padding: 22px;
+  border-radius: 16px;
+  border: 1px solid #444;
 }
 
-h1 {
-  color: #ff9d00;
-}
+h1 { color: orange; }
 
-p {
-  color: #ccc;
-}
+p { color: #bbb; }
 
 input, select, button {
   width: 100%;
   padding: 14px;
-  margin: 10px 0;
-  border-radius: 8px;
+  margin: 9px 0;
   border: none;
-  font-size: 16px;
+  border-radius: 8px;
+  font-size: 15px;
 }
 
 input, select {
@@ -50,35 +45,59 @@ input, select {
 }
 
 button {
-  background: #ff9d00;
+  background: orange;
   color: black;
   font-weight: bold;
   cursor: pointer;
 }
 
+button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
 .result {
   display: none;
-  margin-top: 20px;
-  background: #303030;
+  background: #292929;
   padding: 15px;
-  border-radius: 10px;
+  border-radius: 12px;
+  margin-top: 20px;
 }
 
 .setting {
   display: flex;
   justify-content: space-between;
-  padding: 12px;
-  border-bottom: 1px solid #555;
+  padding: 13px;
+  border-bottom: 1px solid #444;
 }
 
 .value {
-  color: #ff9d00;
+  color: orange;
   font-weight: bold;
+}
+
+.premium-box {
+  display: none;
+  margin-top: 20px;
+  padding: 18px;
+  background: #292929;
+  border: 1px solid orange;
+  border-radius: 12px;
+}
+
+.premium-title {
+  color: orange;
+}
+
+.ad-progress {
+  color: orange;
+  font-weight: bold;
+  font-size: 19px;
 }
 
 footer {
   margin-top: 25px;
-  color: #888;
+  color: gray;
   font-size: 12px;
 }
 </style>
@@ -88,133 +107,276 @@ footer {
 
 <div class="container">
 
-<h1>🔥 FF SENSITIVITY</h1>
+<h1>🔥 FF SENSITIVITY PRO</h1>
 
-<p>Get your Free Fire headshot sensitivity settings!</p>
+<p>Find your Free Fire sensitivity.</p>
 
-<input
-  type="text"
-  id="phone"
-  placeholder="Enter your phone model (e.g. Xperia 10 VI)"
->
+<input type="text" id="phone"
+list="phones"
+placeholder="Search phone model...">
 
-<select id="performance">
-  <option value="">Select phone performance</option>
-  <option value="low">Low-end phone</option>
-  <option value="medium">Mid-range phone</option>
-  <option value="high">High-end phone</option>
+<datalist id="phones">
+<option value="Sony Xperia 10 VI">
+<option value="Sony Xperia 5 V">
+<option value="Samsung Galaxy A15">
+<option value="Samsung Galaxy A25">
+<option value="Samsung Galaxy A35">
+<option value="Samsung Galaxy A55">
+<option value="Samsung Galaxy S24">
+<option value="Redmi Note 13">
+<option value="Redmi Note 13 Pro">
+<option value="Redmi Note 12">
+<option value="Infinix Note 30">
+<option value="Infinix Note 40">
+<option value="Infinix Hot 40">
+<option value="Infinix Hot 50">
+<option value="Tecno Spark 20">
+<option value="Tecno Spark 30">
+<option value="Tecno Camon 30">
+<option value="Tecno Pova 6">
+<option value="iPhone 13">
+<option value="iPhone 14">
+<option value="iPhone 15">
+<option value="iPhone 16">
+</datalist>
+
+<select id="style">
+<option value="balanced">Balanced</option>
+<option value="headshot">Headshot focus</option>
+<option value="smooth">Smooth aiming</option>
 </select>
 
-<button onclick="generate()">GENERATE SENSITIVITY</button>
+<button onclick="generate()">
+GENERATE SENSITIVITY
+</button>
 
-<div class="result" id="result">
+<div class="result" id="freeResult">
 
-<h2>YOUR SENSITIVITY</h2>
+<h2>FREE SENSITIVITY</h2>
+<div id="freeSettings"></div>
 
-<div class="setting">
-<span>General</span>
-<span class="value" id="general"></span>
 </div>
 
-<div class="setting">
-<span>Red Dot</span>
-<span class="value" id="red"></span>
+<div class="premium-box" id="unlockBox">
+
+<h2 class="premium-title">👑 PREMIUM ACCESS</h2>
+
+<p>Complete two verified rewarded ads to unlock premium settings.</p>
+
+<div class="ad-progress" id="progress">
+0 / 2 ADS
 </div>
 
-<div class="setting">
-<span>2X Scope</span>
-<span class="value" id="two"></span>
+<p id="adMessage">
+Demo mode: real advertisements are not connected yet.
+</p>
+
+<button id="adButton" onclick="watchDemoAd()">
+DEMO AD 1
+</button>
+
 </div>
 
-<div class="setting">
-<span>4X Scope</span>
-<span class="value" id="four"></span>
-</div>
+<div class="result" id="premiumResult">
 
-<div class="setting">
-<span>Sniper Scope</span>
-<span class="value" id="sniper"></span>
-</div>
+<h2 class="premium-title">👑 PREMIUM UNLOCKED</h2>
 
-<div class="setting">
-<span>Free Look</span>
-<span class="value" id="free"></span>
-</div>
+<p>Your premium recommendations are ready!</p>
 
-<button onclick="copySettings()">COPY SETTINGS</button>
+<div id="premiumSettings"></div>
 
-<p>These are starting recommendations.
-Adjust them in training mode.</p>
+<button onclick="copyPremium()">
+COPY PREMIUM SETTINGS
+</button>
 
 </div>
 
 <footer>
-FF Sensitivity Generator © 2026
+FF Sensitivity Pro © 2026
+<br><br>
+Unofficial Free Fire fan project.
 </footer>
 
 </div>
 
 <script>
 
-function generate() {
+const phoneDatabase = {
 
-const phone = document.getElementById("phone").value;
-const performance = document.getElementById("performance").value;
+"sony xperia 10 vi":[195,190,185,175,100,140],
+"sony xperia 5 v":[190,185,180,170,95,135],
 
-if (!phone || !performance) {
-  alert("Enter your phone model and select performance!");
-  return;
-}
+"samsung galaxy a15":[185,180,175,165,90,125],
+"samsung galaxy a25":[188,183,178,168,95,130],
+"samsung galaxy a35":[190,185,180,170,95,135],
+"samsung galaxy a55":[192,187,182,172,100,135],
+"samsung galaxy s24":[195,190,185,175,100,140],
 
-let settings;
+"redmi note 13":[190,185,180,170,95,130],
+"redmi note 13 pro":[192,187,182,172,100,135],
+"redmi note 12":[188,183,178,168,95,130],
 
-if (performance === "low") {
-  settings = [185, 180, 175, 165, 90, 120];
-}
+"infinix note 30":[188,183,178,168,95,130],
+"infinix note 40":[190,185,180,170,95,135],
+"infinix hot 40":[185,180,175,165,90,125],
+"infinix hot 50":[188,183,178,168,95,130],
 
-else if (performance === "medium") {
-  settings = [190, 185, 180, 170, 95, 130];
-}
+"tecno spark 20":[185,180,175,165,90,125],
+"tecno spark 30":[188,183,178,168,95,130],
+"tecno camon 30":[190,185,180,170,95,135],
+"tecno pova 6":[192,187,182,172,100,140],
 
-else {
-  settings = [195, 190, 185, 175, 100, 140];
-}
+"iphone 13":[190,185,180,170,95,135],
+"iphone 14":[192,187,182,172,100,135],
+"iphone 15":[195,190,185,175,100,140],
+"iphone 16":[195,192,187,177,105,145]
 
-const ids = [
-  "general", "red", "two",
-  "four", "sniper", "free"
-];
-
-ids.forEach((id, index) => {
-  document.getElementById(id).textContent =
-    settings[index];
-});
-
-document.getElementById("result").style.display = "block";
-
-}
-
-function copySettings() {
+};
 
 const names = [
-  "General", "Red Dot", "2X Scope",
-  "4X Scope", "Sniper Scope", "Free Look"
+"General","Red Dot","2X Scope",
+"4X Scope","Sniper Scope","Free Look"
 ];
 
-const ids = [
-  "general", "red", "two",
-  "four", "sniper", "free"
-];
+let freeSettings = [];
+let premiumSettings = [];
+let adsWatched = 0;
+let adBusy = false;
 
-let text = "FREE FIRE SENSITIVITY\n";
+function generate() {
 
-ids.forEach((id, index) => {
-  text += names[index] + ": " +
-  document.getElementById(id).textContent + "\n";
-});
+const phone = document.getElementById("phone").value.trim();
+
+if (!phone) {
+alert("Enter your phone model!");
+return;
+}
+
+let settings = phoneDatabase[phone.toLowerCase()];
+
+if (!settings) {
+settings = [190,185,180,170,95,130];
+}
+
+const style = document.getElementById("style").value;
+
+freeSettings = [...settings];
+
+if (style === "headshot") {
+freeSettings = settings.map((v,i) =>
+Math.min(200,v+(i<4?3:0)));
+}
+
+if (style === "smooth") {
+freeSettings = settings.map((v,i) =>
+Math.max(0,v-(i<4?5:2)));
+}
+
+premiumSettings = settings.map((v,i) =>
+Math.min(200,v+(i<4?5:3)));
+
+document.getElementById("freeSettings").innerHTML =
+makeSettings(freeSettings);
+
+document.getElementById("freeResult").style.display = "block";
+
+document.getElementById("unlockBox").style.display = "block";
+
+document.getElementById("premiumResult").style.display = "none";
+
+adsWatched = 0;
+
+updateAdDisplay();
+
+}
+
+function makeSettings(values) {
+
+return names.map((name,i) => `
+<div class="setting">
+<span>${name}</span>
+<span class="value">${values[i]}</span>
+</div>
+`).join("");
+
+}
+
+function updateAdDisplay() {
+
+document.getElementById("progress").textContent =
+adsWatched + " / 2 ADS";
+
+document.getElementById("adButton").textContent =
+"DEMO AD " + (adsWatched+1);
+
+}
+
+function watchDemoAd() {
+
+if (adBusy || adsWatched >= 2) return;
+
+adBusy = true;
+
+const button = document.getElementById("adButton");
+
+button.disabled = true;
+
+document.getElementById("adMessage").textContent =
+"Demo only: no real advertisement is playing.";
+
+let seconds = 5;
+
+button.textContent = "DEMO " + seconds + "s";
+
+const timer = setInterval(() => {
+
+seconds--;
+
+button.textContent = "DEMO " + seconds + "s";
+
+if (seconds <= 0) {
+
+clearInterval(timer);
+
+adsWatched++;
+
+adBusy = false;
+
+button.disabled = false;
+
+if (adsWatched === 2) {
+
+document.getElementById("unlockBox").style.display = "none";
+
+document.getElementById("premiumResult").style.display = "block";
+
+document.getElementById("premiumSettings").innerHTML =
+makeSettings(premiumSettings);
+
+} else {
+
+document.getElementById("adMessage").textContent =
+"First demo completed. Try the second demo.";
+
+updateAdDisplay();
+
+}
+
+}
+
+},1000);
+
+}
+
+function copyPremium() {
+
+const text = names.map((name,i) =>
+name+": "+premiumSettings[i]
+).join("\n");
 
 navigator.clipboard.writeText(text)
-.then(() => alert("Settings copied!"));
+.then(() => alert("Premium settings copied!"))
+.catch(() => alert("Copy the settings manually."));
 
 }
 
