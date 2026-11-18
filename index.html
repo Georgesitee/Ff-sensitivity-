@@ -1,0 +1,224 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FF Sensitivity Generator</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #101010;
+  color: white;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 20px;
+}
+
+.container {
+  max-width: 450px;
+  margin: auto;
+  background: #202020;
+  padding: 25px;
+  border-radius: 15px;
+}
+
+h1 {
+  color: #ff9d00;
+}
+
+p {
+  color: #ccc;
+}
+
+input, select, button {
+  width: 100%;
+  padding: 14px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+}
+
+input, select {
+  background: #333;
+  color: white;
+}
+
+button {
+  background: #ff9d00;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.result {
+  display: none;
+  margin-top: 20px;
+  background: #303030;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.setting {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  border-bottom: 1px solid #555;
+}
+
+.value {
+  color: #ff9d00;
+  font-weight: bold;
+}
+
+footer {
+  margin-top: 25px;
+  color: #888;
+  font-size: 12px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🔥 FF SENSITIVITY</h1>
+
+<p>Get your Free Fire headshot sensitivity settings!</p>
+
+<input
+  type="text"
+  id="phone"
+  placeholder="Enter your phone model (e.g. Xperia 10 VI)"
+>
+
+<select id="performance">
+  <option value="">Select phone performance</option>
+  <option value="low">Low-end phone</option>
+  <option value="medium">Mid-range phone</option>
+  <option value="high">High-end phone</option>
+</select>
+
+<button onclick="generate()">GENERATE SENSITIVITY</button>
+
+<div class="result" id="result">
+
+<h2>YOUR SENSITIVITY</h2>
+
+<div class="setting">
+<span>General</span>
+<span class="value" id="general"></span>
+</div>
+
+<div class="setting">
+<span>Red Dot</span>
+<span class="value" id="red"></span>
+</div>
+
+<div class="setting">
+<span>2X Scope</span>
+<span class="value" id="two"></span>
+</div>
+
+<div class="setting">
+<span>4X Scope</span>
+<span class="value" id="four"></span>
+</div>
+
+<div class="setting">
+<span>Sniper Scope</span>
+<span class="value" id="sniper"></span>
+</div>
+
+<div class="setting">
+<span>Free Look</span>
+<span class="value" id="free"></span>
+</div>
+
+<button onclick="copySettings()">COPY SETTINGS</button>
+
+<p>These are starting recommendations.
+Adjust them in training mode.</p>
+
+</div>
+
+<footer>
+FF Sensitivity Generator © 2026
+</footer>
+
+</div>
+
+<script>
+
+function generate() {
+
+const phone = document.getElementById("phone").value;
+const performance = document.getElementById("performance").value;
+
+if (!phone || !performance) {
+  alert("Enter your phone model and select performance!");
+  return;
+}
+
+let settings;
+
+if (performance === "low") {
+  settings = [185, 180, 175, 165, 90, 120];
+}
+
+else if (performance === "medium") {
+  settings = [190, 185, 180, 170, 95, 130];
+}
+
+else {
+  settings = [195, 190, 185, 175, 100, 140];
+}
+
+const ids = [
+  "general", "red", "two",
+  "four", "sniper", "free"
+];
+
+ids.forEach((id, index) => {
+  document.getElementById(id).textContent =
+    settings[index];
+});
+
+document.getElementById("result").style.display = "block";
+
+}
+
+function copySettings() {
+
+const names = [
+  "General", "Red Dot", "2X Scope",
+  "4X Scope", "Sniper Scope", "Free Look"
+];
+
+const ids = [
+  "general", "red", "two",
+  "four", "sniper", "free"
+];
+
+let text = "FREE FIRE SENSITIVITY\n";
+
+ids.forEach((id, index) => {
+  text += names[index] + ": " +
+  document.getElementById(id).textContent + "\n";
+});
+
+navigator.clipboard.writeText(text)
+.then(() => alert("Settings copied!"));
+
+}
+
+</script>
+
+</body>
+</html>
